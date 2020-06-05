@@ -60,7 +60,7 @@ function tableCreate() {
     // Create button
     let button = document.createElement("button");
     button.setAttribute("id", key);
-    button.setAttribute("class", "btn btn-danger");
+    button.setAttribute("class", "btn btn-danger myButton");
     button.appendChild(document.createTextNode("X"));
 
     // Append to row
@@ -89,7 +89,10 @@ function tableCreate() {
           element.pages,
           element.status
         );
+        // Lets use our prototype function
         updatedBook.changeStatus();
+        // Here we pass a copy of the object back to the Local Storage
+        // with the same ID (this is just an update)
         localStorage.setItem(key, JSON.stringify(updatedBook));
         window.location.reload();
       });
