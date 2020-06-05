@@ -1,18 +1,9 @@
-for (let index = 0; index < localStorage.length; index++) {
-  var element = JSON.parse(localStorage.getItem(`book-${index}`));
-  document.write("<p>" + element.title + "</p>");
-}
-
-function Book(title, author, num_pages, read = "Unread") {
+function Book(title, author, pages, status = "Unread") {
   this.title = title;
   this.author = author;
-  this.num_pages = num_pages;
-  this.read = read;
+  this.pages = pages;
+  this.status = status;
 }
-
-Book.prototype.info = function () {
-  return `${this.title}, by ${this.author}, ${this.num_pages} pages, read status: ${this.read}`;
-};
 
 function addBookToLibrary() {
   let btitle = document.getElementById("btitle").value;
@@ -21,6 +12,52 @@ function addBookToLibrary() {
   let bstatus = document.getElementById("bstatus").value;
 
   newBook = new Book(btitle, bauthor, bpages, bstatus);
-  theKey = localStorage.length;
+
+  theKey = Date.now();
   localStorage.setItem(`book-${theKey}`, JSON.stringify(newBook));
+
+  window.location.reload();
 }
+
+function tableCreate() {
+  let table = document.getElementById("myTable");
+  Object.keys(localStorage).forEach(function (key) {
+    let element = JSON.parse(localStorage.getItem(key));
+    let tr = document.createElement("tr");
+    // Create author
+    let title = document.createElement("td");
+    title.appendChild(document.createTextNode(element.title));
+
+    // Create author
+    let author = document.createElement("td");
+    author.appendChild(document.createTextNode(element.author));
+
+    // Create pages
+    let pages = document.createElement("td");
+    pages.appendChild(document.createTextNode(element.pages));
+
+    // Create status
+    let status = document.createElement("td");
+    status.appendChild(document.createTextNode(element.status));
+
+    // Create button
+    let button = document.createElement("button");
+    button.setAttribute("id", key);
+    button.appendChild(document.createTextNode("Remove me"));
+
+    // Append to row
+    tr.appendChild(title);
+    tr.appendChild(author);
+    tr.appendChild(pages);
+    tr.appendChild(status);
+    tr.appendChild(button);
+
+    table.appendChild(tr);
+    document.getElementById(key).addEventListener("click", function () {
+      localStorage.removeItem(key);
+      window.location.reload();
+    });
+  });
+}
+
+tableCreate();
