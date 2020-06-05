@@ -1,15 +1,16 @@
 # [Javascript Project: Library]
 
-> In this project, we are going to make a simple Javascript Library app where the user can add, remove and update books. It works like a book list. 
+> In this project, we are going to make a simple Javascript Library app where the user can add, remove and update books. It works like a book list. Awesomized with Bootstrap.
+
 ---
 
 ## Screenshots
 
 ### Homepage
+
 ![Homepage](https://github.com/sz16900/library/blob/development/library.png?raw=true)
 
 ---
-
 
 ## Built With
 
@@ -27,7 +28,6 @@
 
 ---
 
-
 ### Prerequisites
 
 - Node.js (for Stylelint)
@@ -38,6 +38,7 @@
 ### Getting Started
 
 To get a local copy up and running follow these simple example steps.
+
 - Clone the project unto your local machine
 - `cd` into the project directory
 - open index.html
@@ -45,18 +46,18 @@ To get a local copy up and running follow these simple example steps.
 ### 🤝 Contributing
 
 Contributions, issues and feature requests are welcome! Start by:
-* Forking the project
-* Cloning the project to your local machine
-* `cd` into the project directory
-* Run `git checkout -b your-branch-name`
-* Make your contributions
-* Push your branch up to your forked repository
-* Open a Pull Request with a detailed description to the development branch of the original project for a review
+
+- Forking the project
+- Cloning the project to your local machine
+- `cd` into the project directory
+- Run `git checkout -b your-branch-name`
+- Make your contributions
+- Push your branch up to your forked repository
+- Open a Pull Request with a detailed description to the development branch of the original project for a review
 
 ---
 
 ## Authors
-
 
 👤 **Elijah Obominuru**
 
@@ -78,11 +79,12 @@ Give a ⭐️ if you like this project!
 ## Acknowledgments
 
 - [Microverse](https://microverse.org)
+
 ---
 
 ## Future Features
 
-- A better mobile friendly experience 
+- A better mobile friendly experience
 - Cleaner log in / sign up pages
 
 ---
