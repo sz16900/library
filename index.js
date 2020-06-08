@@ -13,23 +13,26 @@ Book.prototype.changeStatus = function () {
   }
 };
 
-// Initialize the Library object
-let library = {};
-
-// Popuate the library
-const theHobbit = new Book("The Hobbit", "J.R.R.Tolkien", 295, true);
-const theLord = new Book("The Lord of the Rings", "J.R.R.Tolkien", 898, true);
-const ulysses = new Book("Ulysses", "James Joyce", 795, true);
-let bookArray = [theHobbit, theLord, ulysses];
-bookArray.forEach((element) => {
-  let theKey = "book-" + Date.now();
-  console.log(theKey);
-  library[theKey] = element;
-  console.log(element);
-});
-
-// add the library to localStorage
 if (localStorage.getItem("books") == null) {
+  // Initialize the Library object
+  let library = {};
+
+  // Popuate the library
+  const theHobbit = new Book("The Hobbit", "J.R.R.Tolkien", 295, "Read");
+  const theLord = new Book(
+    "The Lord of the Rings",
+    "J.R.R.Tolkien",
+    898,
+    "Unread"
+  );
+  const ulysses = new Book("Ulysses", "James Joyce", 795, "Read");
+  const bookArray = [theHobbit, theLord, ulysses];
+  bookArray.forEach((element) => {
+    let theKey = "book-" + Date.now();
+    console.log(theKey);
+    library[theKey] = element;
+    console.log(element);
+  });
   localStorage.setItem("books", JSON.stringify(library));
 }
 
@@ -52,33 +55,33 @@ function tableCreate() {
   let cnt = 1;
   let booksCopy = JSON.parse(localStorage.getItem("books"));
   for (const element in booksCopy) {
-    let tr = document.createElement("tr");
+    const tr = document.createElement("tr");
 
     // Create number
-    let number = document.createElement("th");
+    const number = document.createElement("th");
     number.setAttribute("scope", "row");
     number.appendChild(document.createTextNode(cnt));
 
     // Create author
-    let title = document.createElement("td");
+    const title = document.createElement("td");
     title.appendChild(document.createTextNode(booksCopy[element].title));
 
     // Create author
-    let author = document.createElement("td");
+    const author = document.createElement("td");
     author.appendChild(document.createTextNode(booksCopy[element].author));
 
     // Create pages
-    let pages = document.createElement("td");
+    const pages = document.createElement("td");
     pages.appendChild(document.createTextNode(booksCopy[element].pages));
 
     // Create status
-    let status = document.createElement("button");
+    const status = document.createElement("button");
     status.setAttribute("id", `status-${element}`);
     status.setAttribute("class", "btn btn-warning");
     status.appendChild(document.createTextNode(booksCopy[element].status));
 
     // Create button
-    let button = document.createElement("button");
+    const button = document.createElement("button");
     button.setAttribute("id", element);
     button.setAttribute("class", "btn btn-danger myButton");
     button.appendChild(document.createTextNode("X"));
@@ -95,7 +98,10 @@ function tableCreate() {
 
     // Event Listener for delete
     document.getElementById(element).addEventListener("click", function () {
-      delete booksCopy.element;
+      const deleteBook = JSON.parse(localStorage.getItem("books"));
+      delete deleteBook[element];
+      console.log(deleteBook);
+      localStorage.setItem("books", JSON.stringify(deleteBook));
       window.location.reload();
     });
 
@@ -113,7 +119,9 @@ function tableCreate() {
         updatedBook.changeStatus();
         // Here we pass a copy of the object back to the Local Storage
         // with the same ID (this is just an update)
-        booksCopy.element = updatedBook;
+        const updateBooks = JSON.parse(localStorage.getItem("books"));
+        updateBooks[element] = updatedBook;
+        localStorage.setItem("books", JSON.stringify(updateBooks));
         window.location.reload();
       });
 
