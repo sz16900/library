@@ -1,64 +1,82 @@
-function Book(title, author, pages, status = "Unread") {
+function Book(title, author, pages, status) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.status = status;
 }
 
-Book.prototype.changeStatus = function () {
-  if (this.status == "Read") {
-    this.status = "Unread";
-  } else {
-    this.status = "Read";
-  }
-};
+// Initialize the Library object
+if (localStorage.getItem('books') === null) {
+  const library = {};
 
-function addBookToLibrary() {
-  let btitle = document.getElementById("btitle").value;
-  let bauthor = document.getElementById("bauthor").value;
-  let bpages = document.getElementById("bpages").value;
-  let bstatus = document.getElementById("bstatus").value;
-
-  newBook = new Book(btitle, bauthor, bpages, bstatus);
-
-  theKey = Date.now();
-  localStorage.setItem(`book-${theKey}`, JSON.stringify(newBook));
-
-  window.location.reload();
+  // Popuate the library
+  const theHobbit = new Book('The Hobbit', 'J.R.R.Tolkien', 295, 'Read');
+  const theLord = new Book(
+    'The Lord of the Rings',
+    'J.R.R.Tolkien',
+    898,
+    'Unread',
+  );
+  const ulysses = new Book('Ulysses', 'James Joyce', 795, 'Read');
+  const bookArray = [theHobbit, theLord, ulysses];
+  bookArray.forEach((element) => {
+    const theKey = `book-${Date.now()}`;
+    library[theKey] = element;
+  });
+  localStorage.setItem('books', JSON.stringify(library));
 }
 
+// WE DISABLE THIS FUNCTIONS ESLINT DUE TO UNUSED FUNCTION ERROR,
+// HOWEVER, WE ARE CALLING THIS FUNCTION IN THE index.html
+
+/* eslint-disable */
+const addBookToLibrary = () => {
+  const btitle = document.getElementById("btitle").value;
+  const bauthor = document.getElementById("bauthor").value;
+  const bpages = document.getElementById("bpages").value;
+  const bstatus = document.getElementById("bstatus").value;
+  const newBook = new Book(btitle, bauthor, bpages, bstatus);
+  const theKey = `book-${Date.now()}`;
+  const booksCopy = JSON.parse(localStorage.getItem("books"));
+  booksCopy[theKey] = newBook;
+  localStorage.setItem("books", JSON.stringify(booksCopy));
+  window.location.reload();
+};
+/* eslint-enable */
+
 function tableCreate() {
-  let table = document.getElementById("myTable");
+  const table = document.getElementById('myTable');
   let cnt = 1;
-  Object.keys(localStorage).forEach(function (key) {
-    let element = JSON.parse(localStorage.getItem(key));
-    let tr = document.createElement("tr");
+  const booksCopy = JSON.parse(localStorage.getItem('books'));
+  /* eslint-disable */
+  for (const [key, value] of Object.entries(booksCopy)) {
+    const tr = document.createElement("tr");
 
     // Create number
-    let number = document.createElement("th");
+    const number = document.createElement("th");
     number.setAttribute("scope", "row");
     number.appendChild(document.createTextNode(cnt));
 
     // Create author
-    let title = document.createElement("td");
-    title.appendChild(document.createTextNode(element.title));
+    const title = document.createElement("td");
+    title.appendChild(document.createTextNode(value.title));
 
     // Create author
-    let author = document.createElement("td");
-    author.appendChild(document.createTextNode(element.author));
+    const author = document.createElement("td");
+    author.appendChild(document.createTextNode(value.author));
 
     // Create pages
-    let pages = document.createElement("td");
-    pages.appendChild(document.createTextNode(element.pages));
+    const pages = document.createElement("td");
+    pages.appendChild(document.createTextNode(value.pages));
 
     // Create status
-    let status = document.createElement("button");
+    const status = document.createElement("button");
     status.setAttribute("id", `status-${key}`);
     status.setAttribute("class", "btn btn-warning");
-    status.appendChild(document.createTextNode(element.status));
+    status.appendChild(document.createTextNode(value.status));
 
     // Create button
-    let button = document.createElement("button");
+    const button = document.createElement("button");
     button.setAttribute("id", key);
     button.setAttribute("class", "btn btn-danger myButton");
     button.appendChild(document.createTextNode("X"));
@@ -74,31 +92,32 @@ function tableCreate() {
     table.appendChild(tr);
 
     // Event Listener for delete
-    document.getElementById(key).addEventListener("click", function () {
-      localStorage.removeItem(key);
+    document.getElementById(key).addEventListener("click", () => {
+      const deleteBook = JSON.parse(localStorage.getItem("books"));
+      delete deleteBook[key];
+      localStorage.setItem("books", JSON.stringify(deleteBook));
       window.location.reload();
     });
 
     // Event Listener for change status
-    document
-      .getElementById(`status-${key}`)
-      .addEventListener("click", function () {
-        updatedBook = new Book(
-          element.title,
-          element.author,
-          element.pages,
-          element.status
-        );
-        // Lets use our prototype function
-        updatedBook.changeStatus();
-        // Here we pass a copy of the object back to the Local Storage
-        // with the same ID (this is just an update)
-        localStorage.setItem(key, JSON.stringify(updatedBook));
-        window.location.reload();
-      });
+    document.getElementById(`status-${key}`).addEventListener("click", () => {
+      if (value.status === "Read") {
+        value.status = "Unread";
+      } else {
+        value.status = "Read";
+      }
+      // Here we pass a copy of the object back to the Local Storage
+      // with the same ID (this is just an update)
+      const updateBooks = JSON.parse(localStorage.getItem("books"));
+      updateBooks[key] = value;
+
+      localStorage.setItem("books", JSON.stringify(updateBooks));
+      window.location.reload();
+    });
 
     cnt += 1;
-  });
+  }
+  /* eslint-enable */
 }
 
 tableCreate();

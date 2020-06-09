@@ -1,0 +1,27 @@
+{
+  "name": "library",
+  "version": "1.0.0",
+  "description": "> In this project, we are going to make a simple Javascript Library app where the user can add, remove and update books. It works like a book list. Awesomized with Bootstrap.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sz16900/library.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sz16900/library/issues"
+  },
+  "homepage": "https://github.com/sz16900/library#readme",
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.21.1",
+    "stylelint": "^13.6.0",
+    "stylelint-config-recommended": "^3.0.0"
+  }
+}
