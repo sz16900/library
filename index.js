@@ -13,8 +13,8 @@ Book.prototype.changeStatus = function () {
   }
 };
 
+// Initialize the Library object
 if (localStorage.getItem('books') === null) {
-  // Initialize the Library object
   const library = {};
 
   // Popuate the library
